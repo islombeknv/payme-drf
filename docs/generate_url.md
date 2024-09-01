@@ -6,7 +6,7 @@ Payme ning to'lov qismiga foydalanuvchini yuborish uchun, URL ni yaratib olishim
 ![alt text](https://imgur.com/IE0yV4Z.jpg)
 
 ```python
-from paycomuz import Paycom
+from payme import Paycom
 
 paycom = Paycom()
 

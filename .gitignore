@@ -27,5 +27,8 @@ dump.rdb
 .coverage
 coverage.xml
 cobertura.xml
-
+db.sqlite3
+manage.py
+settings
 site/
+payme/views.py

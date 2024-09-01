@@ -1,38 +1,31 @@
-![alt text](https://i.imgur.com/bmVCvl8.jpg)
-
-[![Downloads](https://pepy.tech/badge/paycomuz)](https://pepy.tech/project/paycomuz)
-![alt text](https://img.shields.io/badge/code%20style-black-000000.svg)
-[![Downloads](https://img.shields.io/pypi/v/paycomuz)](https://pypi.org/project/PaycomUz)
-[![Downloads](https://black.readthedocs.io/en/stable/_static/license.svg)](https://github.com/begyy/PaycomUz/blob/master/LICENSE)
-
 ### Requirements
 ````
 pip install django
 pip install djangorestframework
-pip install PaycomUz 
+pip install payme-drf 
 pip install requests
 
 # supported versions
 python 3.5 +
 django 2 +
 djangorestframework 3.7 +
-PaycomUz 2 +
+payme-drf 0.01 +
 ````
 
 **settings.py**
 
 ```python
-PAYCOM_SETTINGS = {
-    "KASSA_ID": "KASSA ID",  # token
-    "SECRET_KEY": "TEST KEY OR PRODUCTIN KEY",  # password
-    "ACCOUNTS": {
-        "KEY": "order_id"
-    },
+PAYME_SETTINGS = {
+    "KASSA_ID": "",
+    "SECRET_KEY": "",
+    "TOKEN": "",
+    "INTEGRATION_INTEND": "" # either web or mobile
 }
 
 INSTALLED_APPS = [
+    ...
     'rest_framework',
-    'paycomuz',
+    'payme',
     ...
 ]
 ```
@@ -41,42 +34,76 @@ INSTALLED_APPS = [
 python manage.py migrate
 ```
 
-### Create paycom user
+### Create payme user
 ```python
-python manage.py create_paycom_user
+python manage.py create_payme_user
 ```
 
 ### view.py
+
 ```python
-from paycomuz.views import MerchantAPIView
-from paycomuz import Paycom
+from payme.methods.merchant.validation_classes import BaseMerchantValidationClass
+from payme.methods.merchant.views import BaseMerchantAPIView
+
+class MerchantValidationClass(BaseMerchantValidationClass):
+    """
+    MerchantValidationClass implements abstract methods from BaseMerchantValidationClass
+    to handle specific payment validation logic.
+
+    Exceptions Handled:
+        - OrderNotFoundException: Raised when the order is not found.
+        - InvalidAmountException: Raised when the transaction amount is invalid.
+
+    Methods:
+        check_order(amount, account, **kwargs): Validates the existence and correctness of the order.
+        successful_payment(params, *args, **kwargs): Processes actions for a successful payment.
+        cancel_payment(params, *args, **kwargs): Processes actions for canceling a payment.
+    """
+
+    def check_order(self, amount, account, **kwargs):
+        """Validates the existence and correctness of the order."""
+        ...
+
+    def successful_payment(self, params, *args, **kwargs):
+        """Processes actions for a successful payment."""
+        ...
+
+    def cancel_payment(self, params, *args, **kwargs):
+        """Processes actions for canceling a payment."""
+        ...
+
+
+class PaymeMerchantAPIView(BaseMerchantAPIView):
+    """
+    PaymeMerchantAPIView handles API requests for Payme merchant operations
+    by using the MerchantValidationClass to validate transactions.
+
+    Attributes:
+        validation_class (type): The validation class used for processing merchant transactions.
+    """
+    validation_class = MerchantValidationClass
+```
+
+### urls.py
+```
 from django.urls import path
 
-class CheckOrder(Paycom):
-    def check_order(self, amount, account, *args, **kwargs):
-        return self.ORDER_FOUND
-        
-   def successfully_payment(self, account, transaction, *args, **kwargs):
-        print(account)
-
-   def cancel_payment(self, account, transaction, *args, **kwargs):
-        print(account)
-      
-
-class TestView(MerchantAPIView):
-    VALIDATE_CLASS = CheckOrder
-
 urlpatterns = [
-    path('paycom/', TestView.as_view())
+    path('payme/', PaymeMerchantAPIView.as_view())
 ]
 ```
 
 ### create_initialization.py
 https://help.paycom.uz/uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-get
+
+📌 You can pass multiple items to ac_params to customize the payment request.
+
 ```python
-from paycomuz import Paycom
-paycom = Paycom()
-url = paycom.create_initialization(amount=5.00, order_id='197', return_url='https://example.com/success/')
+from payme.methods.merchant.helpers import PaymeHelper
+from decimal import Decimal
+
+helper = PaymeHelper()
+ac_params = {"order_id": "12221"} 
+url = helper.create_initialization(amount=Decimal(5000.00), ac_params=ac_params, return_url='https://example.com/success/')
 print(url)
 ```
-![alt text](https://help.paycom.uz/images/ru/payment_initialization/checkout-get-method-response.png)

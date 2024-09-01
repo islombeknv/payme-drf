@@ -4,16 +4,16 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="PaycomUz",
-    version="3.1",
-    author="Sadullayev Bekhzod",
-    author_email="begymrx@gmail.com",
-    description="Paycomuz",
+    name="payme-drf",
+    version="0.01",
+    author="Islombek Normamatov",
+    author_email="islomjon2702@gmail.com",
+    description="payme-drf",
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires=">=3.5",
-    install_requires=['requests', 'django'],
-    url="https://github.com/begyy/PaycomUz",
+    install_requires=['requests', 'django', 'djangorestframework'],
+    url="https://github.com/islombeknv/payme-drf",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
