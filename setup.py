@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="payme-drf",
-    version="0.2",
+    version="0.2.2",
     author="Islombek Normamatov",
     author_email="islomjon2702@gmail.com",
     description="payme-drf",
@@ -15,6 +15,7 @@ setuptools.setup(
     install_requires=['requests', 'django', 'djangorestframework'],
     url="https://github.com/islombeknv/payme-drf",
     packages=setuptools.find_packages(),
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

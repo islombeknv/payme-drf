@@ -1,11 +1,9 @@
 from abc import abstractmethod
-
 from django.utils import timezone
-
 from payme.constants import *
 from payme.exceptions import OrderNotFoundException, InvalidAmountException
 from payme.models import TransactionModel
-from settings import settings
+from django.conf import settings
 
 INTEGRATION = settings.PAYME_SETTINGS.get("INTEGRATION_INTEND")
 
@@ -122,7 +120,7 @@ class BaseMerchantValidationClass:
         if INTEGRATION == 'mobile':
             target['transaction_id'] = transaction_id
 
-        tr = TransactionModel.objects.filter(**target, status=TransactionModel.PROCESSING).order_by("pk")
+        tr = TransactionModel.objects.filter(**target, status=TransactionModel.PROCESSING).order_by("-pk")
 
         if tr.exists():
             tr = tr.first()
