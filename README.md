@@ -77,11 +77,11 @@ class PaymeMerchantAPIView(BaseMerchantAPIView):
     """
     PaymeMerchantAPIView handles API requests for Payme merchant operations
     by using the MerchantValidationClass to validate transactions.
-
-    Attributes:
-        validation_class (type): The validation class used for processing merchant transactions.
     """
+    
     validation_class = MerchantValidationClass
+
+
 ```
 
 ### urls.py
@@ -96,7 +96,7 @@ urlpatterns = [
 ### create_initialization.py
 https://help.paycom.uz/uz/initsializatsiya-platezhey/otpravka-cheka-po-metodu-get
 
-📌 You can pass multiple items to ac_params to customize the payment request.
+You can pass multiple items to ac_params to customize the payment request.
 
 ```python
 from payme.methods.merchant.helpers import PaymeHelper
