@@ -18,7 +18,6 @@ payme-drf 0.01 +
 PAYME_SETTINGS = {
     "KASSA_ID": "",
     "SECRET_KEY": "",
-    "TOKEN": "",
     "INTEGRATION_INTEND": "" # either web or mobile
 }
 

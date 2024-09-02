@@ -7,7 +7,7 @@ user_model = get_user_model()
 
 class Command(BaseCommand):
     help = "Create user for Payme"
-    username = "Payme"
+    username = "Paycom"
     password = settings.PAYME_SETTINGS["SECRET_KEY"]
     username_key = user_model.USERNAME_FIELD
 

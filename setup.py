@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="payme-drf",
-    version="0.0.2",
+    version="0.2",
     author="Islombek Normamatov",
     author_email="islomjon2702@gmail.com",
     description="payme-drf",
