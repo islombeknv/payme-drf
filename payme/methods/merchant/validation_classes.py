@@ -86,6 +86,9 @@ class BaseMerchantValidationClass:
     def check_perform_transaction(self, validated_data):
         """
         Checks if the transaction can be performed.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/checktransaction
         """
         try:
             self.check_order(**validated_data["params"])
@@ -99,6 +102,9 @@ class BaseMerchantValidationClass:
     def create_transaction(self, validated_data):
         """
         Creates a new transaction or returns an existing one if in progress.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/createtransaction
         """
         account = validated_data["params"]["account"]
         try:
@@ -170,6 +176,9 @@ class BaseMerchantValidationClass:
     def perform_transaction(self, validated_data):
         """
         Performs the transaction if it exists and is not canceled.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/performtransaction
         """
         transaction_id = validated_data["params"]["id"]
         request_id = validated_data["id"]
@@ -216,6 +225,9 @@ class BaseMerchantValidationClass:
     def check_transaction(self, validated_data):
         """
         Checks the status of a transaction.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/checkperformtransaction
         """
         transaction_id = validated_data["params"]["id"]
         request_id = validated_data["id"]
@@ -235,6 +247,9 @@ class BaseMerchantValidationClass:
     def cancel_transaction(self, validated_data):
         """
         Cancels the transaction if it is in a cancellable state.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/canceltransaction
         """
         transaction_id = validated_data["params"]["id"]
         reason = validated_data["params"]["reason"]
@@ -271,6 +286,9 @@ class BaseMerchantValidationClass:
     def get_statement(self, validated_data):
         """
         Generates a statement for transactions over a specified period.
+
+        References:
+            Documentation: https://developer.help.paycom.uz/metody-merchant-api/getstatement
         """
         from_datetime = validated_data.get("params").get("from")
         to_datetime = validated_data.get("params").get("to")

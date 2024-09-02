@@ -98,7 +98,7 @@ from payme.methods.merchant.helpers import PaymeHelper
 from decimal import Decimal
 
 helper = PaymeHelper()
-ac_params = {"order_id": "12221"} 
+ac_params = {"order_id": "12221"}  # Here, your account parameters
 url = helper.create_initialization(amount=Decimal(5000.00), ac_params=ac_params, return_url='https://example.com/success/')
 print(url)
 ```
